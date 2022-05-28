@@ -31,6 +31,7 @@ final class Config
     private function __construct()
     {
         $this->bag = [
+            'app' => require __DIR__ . '/../../../config/app.php',
             'database' => require __DIR__ . '/../../../config/database.php',
         ];
     }
