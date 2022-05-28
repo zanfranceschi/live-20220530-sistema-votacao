@@ -1,3 +1,11 @@
 <?php
 
-print '<h1>Public API</h1>';
+declare(strict_types=1);
+
+use App\Http\Kernel;
+
+require __DIR__ . '/../vendor/autoload.php';
+
+$app = Kernel::bootstrap();
+
+$app->run();
