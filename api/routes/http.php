@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Info\HealtcheckAction;
 use Slim\App;
 use App\Http\Error\NotFound;
 
@@ -9,6 +10,7 @@ use App\Http\Error\NotFound;
  * @return void
  */
 return static function (App $app): void {
+    $app->get('/healthcheck', HealtcheckAction::class);
 
     $app->any('/{path:.*}', NotFound::class);
 };
