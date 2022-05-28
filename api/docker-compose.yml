@@ -1,0 +1,55 @@
+version: '3.7'
+
+# Networks
+networks:
+  # Internal network
+  internal:
+    driver: bridge
+
+# Services
+services:
+
+  # PHP / Nginx
+  bbb-app:
+    image: webdevops/php-nginx-dev:8.1
+    container_name: bbb-app
+    networks:
+      - internal
+    working_dir: /var/www/app
+    volumes:
+      - .:/var/www/app
+    depends_on:
+      - bbb-queue
+    environment:
+      - WEB_DOCUMENT_ROOT=/var/www/app/public
+      - PHP_DISPLAY_ERRORS=0
+      - PHP_MEMORY_LIMIT=2048M
+      - PHP_MAX_EXECUTION_TIME=300
+      - PHP_POST_MAX_SIZE=500M
+      - PHP_UPLOAD_MAX_FILESIZE=500M
+      - PHP_DEBUGGER="xdebug"
+      # xdebug v3
+      # export PHP_IDE_CONFIG="serverName=_"
+      - XDEBUG_MODE=debug
+      - XDEBUG_START_WITH_REQUEST=yes
+      - XDEBUG_CLIENT_HOST=host.docker.internal
+      # - XDEBUG_CLIENT_HOST=192.168.0.36
+      - XDEBUG_CLIENT_PORT=9090
+      - XDEBUG_OUTPUT_DIR=/var/www/app/.xdebug
+    expose:
+      - 9090
+    ports:
+      - "3000:80"
+
+  # RabbitMQ
+  bbb-queue:
+    image: rabbitmq:3-management
+    container_name: bbb-queue
+    networks:
+      - internal
+    ports:
+      - "3010:15672"
+      - "3020:5672"
+    environment:
+      - RABBITMQ_DEFAULT_USER=${RABBITMQ_USER}
+      - RABBITMQ_DEFAULT_PASS=${RABBITMQ_PASSWORD}
