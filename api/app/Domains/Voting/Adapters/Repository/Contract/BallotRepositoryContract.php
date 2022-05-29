@@ -4,7 +4,8 @@ declare(strict_types=1);
 
 namespace App\Domains\Voting\Adapters\Repository\Contract;
 
-use App\Domains\Voting\Entities\Contract\BallotContract;
+
+use App\Domains\Voting\Entities\Ballot;
 
 /**
  * Class BallotRepositoryContract
@@ -16,7 +17,7 @@ interface BallotRepositoryContract
     /**
      * @param string $vote
      *
-     * @return BallotContract
+     * @return Ballot
      */
-    public function computeVote(string $vote): BallotContract;
+    public function computeVote(string $vote): Ballot;
 }

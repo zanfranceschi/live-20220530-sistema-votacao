@@ -135,7 +135,12 @@ abstract class Action
         try {
             return $this->container->call([$this, 'handle'], $parameters);
         } catch (Throwable $error) {
-            return $this->fail(data: (array)$error, code: 405);
+            $data = [
+                'message' => $error->getMessage(),
+                'file' => $error->getFile(),
+                'line' => $error->getLine(),
+            ];
+            return $this->fail(data: $data, code: 405);
         }
     }
 }

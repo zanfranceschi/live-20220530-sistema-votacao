@@ -20,7 +20,7 @@ use function Helper\uuid;
  *
  * @package App\Shared\Entities
  */
-class Entity implements EntityContract, JsonSerializable
+abstract class Entity implements EntityContract, JsonSerializable
 {
     /**
      * @var string

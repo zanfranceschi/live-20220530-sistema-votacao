@@ -6,7 +6,6 @@ namespace App\Domains\Voting\Adapters\Repository;
 
 use App\Domains\Voting\Adapters\Repository\Contract\BallotRepositoryContract;
 use App\Domains\Voting\Entities\Ballot;
-use App\Domains\Voting\Entities\Contract\BallotContract;
 use DateTime;
 use Exception;
 use Jajo\JSONDB;
@@ -26,10 +25,10 @@ class BallotRepositoryLocal implements BallotRepositoryContract
     /**
      * @param string $vote
      *
-     * @return BallotContract
+     * @return Ballot
      * @throws Exception
      */
-    public function computeVote(string $vote): BallotContract
+    public function computeVote(string $vote): Ballot
     {
         $ballot = Ballot::instance([
             'vote' => $vote,

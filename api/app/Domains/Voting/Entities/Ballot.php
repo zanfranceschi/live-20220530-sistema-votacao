@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domains\Voting\Entities;
 
-use App\Domains\Voting\Entities\Contract\BallotContract;
 use App\Shared\Entities\Entity;
 use DateTimeInterface;
 
@@ -13,7 +12,7 @@ use DateTimeInterface;
  *
  * @package App\Domains\Voting\Entities
  */
-class Ballot extends Entity implements BallotContract
+class Ballot extends Entity
 {
     /**
      * @var string
