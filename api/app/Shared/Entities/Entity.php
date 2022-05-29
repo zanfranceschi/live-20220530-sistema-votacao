@@ -13,7 +13,7 @@ use ReflectionClass;
 use ReflectionProperty;
 use RuntimeException;
 
-use function Helper\uuid;
+use function Helper\generateId;
 
 /**
  * Class Entity
@@ -51,7 +51,7 @@ class Entity implements EntityContract, JsonSerializable
     /**
      * @param string $id
      */
-    public function setId(string $id): void
+    protected function setId(string $id): void
     {
         $this->id = $id;
     }
@@ -66,7 +66,7 @@ class Entity implements EntityContract, JsonSerializable
     public function fill(array $data): self
     {
         if (!isset($data['id'])) {
-            $data['id'] = uuid();
+            $data['id'] = generateId();
         }
 
         foreach ($data as $attribute => $value) {
