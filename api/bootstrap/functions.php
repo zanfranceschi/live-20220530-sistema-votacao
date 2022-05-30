@@ -2,14 +2,23 @@
 
 namespace Helper;
 
+use EndyJasmi\Cuid;
 use Exception;
 
 /**
  * @return string
  * @throws Exception
  */
-function uuid(): string
+function generateId(): string
 {
+    if (config('app.generators.id') === 'cuid') {
+        return Cuid::cuid();
+    }
+
+    if (config('app.generators.id') === 'slug') {
+        return Cuid::slug();
+    }
+
     return sprintf(
         '%04x%04x-%04x-%04x-%04x-%04x%04x%04x',
         // 32 bits for "time_low"

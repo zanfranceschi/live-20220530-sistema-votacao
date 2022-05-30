@@ -6,7 +6,9 @@
     "php-di/php-di": "^6.4",
     "php-di/invoker": "^2.3",
     "jajo/jsondb": "^3.0",
-    "symfony/dotenv": "^6.1"
+    "symfony/dotenv": "^6.1",
+    "php-amqplib/php-amqplib": "^3.2",
+    "endyjasmi/cuid": "^2.1"
   },
   "require-dev": {
     "roave/security-advisories": "dev-latest"
