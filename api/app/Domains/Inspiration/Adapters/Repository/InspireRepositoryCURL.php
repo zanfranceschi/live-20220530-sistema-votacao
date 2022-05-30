@@ -18,10 +18,10 @@ use JsonException;
 final class InspireRepositoryCURL implements InspireRepositoryContract
 {
     /**
-     * @return QuoteContract
+     * @return Quote
      * @throws Exception
      */
-    public function getInspirationalQuote(): QuoteContract
+    public function getInspirationalQuote(): Quote
     {
         $curl = curl_init();
         curl_setopt($curl, CURLOPT_URL, 'https://zenquotes.io/api/random');

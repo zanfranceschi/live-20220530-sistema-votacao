@@ -4,7 +4,7 @@ declare(strict_types=1);
 
 namespace App\Domains\Inspiration\Adapters\Contract;
 
-use App\Domains\Inspiration\Entities\Contract\QuoteContract;
+use App\Domains\Inspiration\Entities\Quote;
 
 /**
  * Class InspireRepositoryContract
@@ -14,7 +14,7 @@ use App\Domains\Inspiration\Entities\Contract\QuoteContract;
 interface InspireRepositoryContract
 {
     /**
-     * @return QuoteContract
+     * @return Quote
      */
-    public function getInspirationalQuote(): QuoteContract;
+    public function getInspirationalQuote(): Quote;
 }
