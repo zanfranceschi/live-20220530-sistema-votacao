@@ -1,0 +1,1 @@
+{"name":"Maria","vote":"Lina"}{"name":"Maria","vote":"Lina"}
