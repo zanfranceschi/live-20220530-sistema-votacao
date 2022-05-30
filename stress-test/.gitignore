@@ -1,0 +1,5 @@
+bin/
+lib/
+results/*
+target/
+scripts.sh
