@@ -1,3 +1,6 @@
 .idea
 docker-compose.override.yml
 /persistencia/node_modules
+/exibicao/bin
+/exibicao/obj
+/exibicao/.vs/Exibição
