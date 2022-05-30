@@ -32,6 +32,7 @@ final class Config
     {
         $this->bag = [
             'database' => require __DIR__ . '/../../../config/database.php',
+            'broker' => require __DIR__ . '/../../../config/broker.php',
         ];
     }
 
