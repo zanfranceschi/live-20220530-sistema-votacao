@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace App\Domains\Inspiration\Entities;
 
-use App\Domains\Inspiration\Entities\Contract\QuoteContract;
 use App\Shared\Entities\Entity;
 
 /**
@@ -12,7 +11,7 @@ use App\Shared\Entities\Entity;
  *
  * @package App\Domains\Inspiration\Entities
  */
-class Quote extends Entity implements QuoteContract
+class Quote extends Entity
 {
     /**
      * @var string
