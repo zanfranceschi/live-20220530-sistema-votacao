@@ -1,9 +1,8 @@
-﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
 
-namespace live.exibicao;
+namespace RabbitMQ.Client;
 public class Program
 {
     public static void Main()
@@ -15,33 +14,31 @@ public class Program
         using (var connection = factory.CreateConnection())
         using (var channel = connection.CreateModel())
         {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                //
-                var voto = JsonSerializer.Deserialize<Voto>(message);
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var voto = JsonSerializer.Deserialize<Voto>(message, options);
 
                 if (globoDatabase.ContainsKey(voto.Nome) == false)
                 {
-                    Console.WriteLine(" [x] Nome {0}", voto.Nome);
+                    Console.WriteLine(" [x] Brother: {0}", voto.Nome);
                     globoDatabase.Add(voto.Nome, 0);
                 }
                 globoDatabase[voto.Nome] += 1;
 
                 allVotes++;
 
-                printVotes(globoDatabase);
-                //
+                printVotes(globoDatabase, allVotes);
+
             };
-            channel.BasicConsume(queue: "hello",
+            channel.BasicConsume(queue: "voto-validado.exibicao",
                                  autoAck: true,
                                  consumer: consumer);
 
@@ -50,18 +47,21 @@ public class Program
         }
     }
 
-    private static void printVotes(IDictionary<string, int> storage)
+    private static void printVotes(IDictionary<string, int> storage, long votes)
     {
+        Console.Clear();
         Console.WriteLine("\n\n========== VOTOS ===========");
+        Console.WriteLine($"Total de votos: {votes}");
+        Console.WriteLine("------------------------");
         foreach (var v in storage)
         {
             Console.WriteLine($"{v.Key}: {v.Value} votos");
             Console.WriteLine("------------------------");
         }
     }
-
 }
 class Voto
 {
     public string Nome { get; set; }
 }
+
