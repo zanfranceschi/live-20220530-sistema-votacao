@@ -7,7 +7,6 @@ public class Program
 {
     public static void Main()
     {
-
         IDictionary<string, int> globoDatabase = new Dictionary<string, int>();
         long allVotes = 0;
 
@@ -15,12 +14,6 @@ public class Program
         using (var connection = factory.CreateConnection())
         using (var channel = connection.CreateModel())
         {
-            channel.QueueDeclare(queue: "hello",
-                                 durable: false,
-                                 exclusive: false,
-                                 autoDelete: false,
-                                 arguments: null);
-
             var consumer = new EventingBasicConsumer(channel);
             consumer.Received += (model, ea) =>
             {
@@ -42,10 +35,10 @@ public class Program
 
                 allVotes++;
 
-                printVotes(globoDatabase);
+                printVotes(globoDatabase, allVotes);
 
             };
-            channel.BasicConsume(queue: "hello",
+            channel.BasicConsume(queue: "voto-validado.exibicao",
                                  autoAck: true,
                                  consumer: consumer);
 
@@ -54,16 +47,18 @@ public class Program
         }
     }
 
-    private static void printVotes(IDictionary<string, int> storage)
+    private static void printVotes(IDictionary<string, int> storage, long votes)
     {
+        Console.Clear();
         Console.WriteLine("\n\n========== VOTOS ===========");
+        Console.WriteLine($"Total de votos: {votes}");
+        Console.WriteLine("------------------------");
         foreach (var v in storage)
         {
             Console.WriteLine($"{v.Key}: {v.Value} votos");
             Console.WriteLine("------------------------");
         }
     }
-
 }
 class Voto
 {
