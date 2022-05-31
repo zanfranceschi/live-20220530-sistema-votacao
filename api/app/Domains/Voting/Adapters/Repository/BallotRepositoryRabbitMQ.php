@@ -52,11 +52,8 @@ class BallotRepositoryRabbitMQ implements BallotRepositoryContract
             $user = config('broker.drivers.rabbitmq.user','guest');
             $password = config('broker.drivers.rabbitmq.password','guest');
 
-            $queue = config('broker.drivers.rabbitmq.queue', 'default');
-
             $connection = new AMQPStreamConnection($host, $port, $user, $password);
             $this->channel = $connection->channel();
-            $this->channel->queue_declare($queue, false, false, false, false);
         }
         return $this->channel;
     }
@@ -70,7 +67,8 @@ class BallotRepositoryRabbitMQ implements BallotRepositoryContract
     protected function create(array $data): void
     {
         $message = new AMQPMessage(JSON::encode($data));
-        $queue = config('broker.drivers.rabbitmq.queue', 'default');
-        $this->channel()->basic_publish($message, '', $queue);
+        $exchange = config('broker.drivers.rabbitmq.exchange', 'voto-solicitado');
+        $routing_key = config('broker.drivers.rabbitmq.routing_key', 'voto');
+        $this->channel()->basic_publish($message, $exchange, $routing_key);
     }
 }

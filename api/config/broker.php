@@ -7,7 +7,8 @@ return [
             'port' => env('RABBITMQ_PORT', 5672),
             'user' => env('RABBITMQ_USER', 'root'),
             'password' => env('RABBITMQ_PASSWORD', 'root'),
-            'queue' => env('RABBITMQ_QUEUE', 'default'),
+            'exchange' => env('RABBITMQ_EXCHANGE', 'voto-solicitado'),
+            'routing_key' => env('RABBITMQ_ROUTING_KEY', 'voto'),
         ]
     ]
 ];
