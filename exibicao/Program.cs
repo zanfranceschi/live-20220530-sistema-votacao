@@ -1,13 +1,13 @@
-﻿using RabbitMQ.Client;
-using RabbitMQ.Client.Events;
+﻿using RabbitMQ.Client.Events;
 using System.Text;
 using System.Text.Json;
 
-namespace live.exibicao;
+namespace RabbitMQ.Client;
 public class Program
 {
     public static void Main()
     {
+
         IDictionary<string, int> globoDatabase = new Dictionary<string, int>();
         long allVotes = 0;
 
@@ -26,12 +26,16 @@ public class Program
             {
                 var body = ea.Body.ToArray();
                 var message = Encoding.UTF8.GetString(body);
-                //
-                var voto = JsonSerializer.Deserialize<Voto>(message);
+
+                var options = new JsonSerializerOptions
+                {
+                    PropertyNameCaseInsensitive = true
+                };
+                var voto = JsonSerializer.Deserialize<Voto>(message, options);
 
                 if (globoDatabase.ContainsKey(voto.Nome) == false)
                 {
-                    Console.WriteLine(" [x] Nome {0}", voto.Nome);
+                    Console.WriteLine(" [x] Brother: {0}", voto.Nome);
                     globoDatabase.Add(voto.Nome, 0);
                 }
                 globoDatabase[voto.Nome] += 1;
@@ -39,7 +43,7 @@ public class Program
                 allVotes++;
 
                 printVotes(globoDatabase);
-                //
+
             };
             channel.BasicConsume(queue: "hello",
                                  autoAck: true,
@@ -65,3 +69,4 @@ class Voto
 {
     public string Nome { get; set; }
 }
+
